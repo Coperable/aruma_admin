@@ -1,0 +1,94 @@
+<div class="page page-form">
+
+    <div class="row ui-section"  data-ng-controller="activity-edit" ng-cloak>
+        <div class="col-lg-8 clearfix">
+            <h2 ng-show="!activity.id" class="section-header">Nueva Actividad</h2>
+            <h2 ng-show="activity.id" class="section-header">Edición Actividad</h2>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form name="activity_form" class="form-validation" novalidate data-ng-submit="submitForm()">
+                        <div class="form-group">
+                            <label for="">Nombre</label>
+                            <input  type="text" class="form-control" required data-ng-model="activity.title" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Descripción</label>
+                            <textarea class="form-control" rows="10" required data-ng-model="activity.description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="btn btn-primary btn-upload" upload-button 
+                                url="{{upload_url}}"
+                                param="file"
+                                data="formData"
+                                accept="image/*"
+                                multiple="false"
+                                force-iframe-upload="{{forceIframeUpload}}"
+                                required="false"
+                                on-upload="onUpload(files)" 
+                                on-success="onSuccess(response)" 
+                                on-error="onError(response)"
+                                on-complete="onComplete(response)">
+                                Subir Imágen Portada
+                            </div>
+                            <img ng-if="uploading" ng-src="/images/loading.gif" height="300px" class="img-responsive">
+                            <img ng-if="activity.main_picture" ng-src="http://images.collab-dev.com/300x/smart/aruma/{{activity.main_picture}}" class="img-rounded img-responsive">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Talleristas, Coordinadores, Oradores</label>
+                            <textarea class="form-control" rows="10" required data-ng-model="activity.coordinators"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Fecha Evento</label>
+                            <input id="activity_event_date" type="date" class="form-control" required>
+                        </div>
+<!--
+    Tal vez combo de centros ?
+-->
+                        <div class="form-group">
+                            <label for="">Nombre Espacio/Lugar</label>
+                            <input  type="text" class="form-control" required data-ng-model="activity.place" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Dirección</label>
+                            <input id="activity-location" class="form-control" type="text" placeholder="Ingresar dirección">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Twitter Hashtag</label>
+                            <input  type="text" class="form-control" required data-ng-model="activity.twitter_hashtag" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Instagram Hashtag</label>
+                            <input  type="text" class="form-control" required data-ng-model="activity.instagram_hashtag" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Categorías</label>
+                            <tags-input ng-model="activity.categories" class="ui-tags-input" ></tags-input>
+                        </div>
+
+                        <button type="submit"
+                                ui-wave
+                                class="btn btn-primary btn-w-md"
+                                data-ng-disabled="!canSubmit()"
+                                >Guardar</button>
+                        <button class="btn btn-default btn-w-md"
+                                ui-wave
+                                data-ng-click="revert()"
+                        >Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

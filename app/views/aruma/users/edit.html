@@ -1,0 +1,50 @@
+<div class="page page-form">
+
+
+    <div class="row ui-section" data-ng-controller="users-edit">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header" ng-if="user.id">Editando {{user.name}}</h2>
+            <h2 class="section-header" ng-if="!user.id">Nueva Región</h2>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form name="user_form" class="form-validation" novalidate data-ng-submit="submitForm()">
+                        <div class="form-group">
+                            <label for="">Usuario</label>
+                            <input  type="text" class="form-control" required data-ng-model="user.username" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input  type="text" class="form-control" required data-ng-model="user.email" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Nombre</label>
+                            <input  type="text" class="form-control" data-ng-model="user.name" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Apellido</label>
+                            <input  type="text" class="form-control" data-ng-model="user.lastname" >
+                        </div>
+                        <div class="row">
+                        <button type="submit"
+                                ui-wave
+                                class="btn btn-primary btn-w-md"
+                                data-ng-disabled="!canSubmit()"
+                                >Guardar</button>
+                        <button class="btn btn-default btn-w-md"
+                                ui-wave
+                                data-ng-click="revert()"
+                        >Cancelar</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

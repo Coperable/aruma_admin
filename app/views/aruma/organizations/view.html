@@ -1,0 +1,101 @@
+<div class="page page-profile" data-ng-controller="organization-view">
+
+    <header class="profile-header">
+        <div class="row">
+            <ul class="list-inline">
+                <li>{{organization.title}}</li>
+            </ul>
+            <span class="btn btn-danger pull-right" ng-click="edit(organization.id)">Editar</span>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3">
+                <img ng-src="http://images.collab-dev.com/300x/smart/aruma/{{organization.main_picture}}" class="img-rounded img-responsive">
+            </div>
+            <div class="col-md-9 col-lg-9">
+                <h2>{{organization.title}}</h2>
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <ul class="list-unstyled list-inline">
+                <li><span class="btn" ng-click="showProducts()"><i class="fa fa-box"></i> Productos <span class="text-muted">({{organization.products.length}})</span></span></li>
+                <li><span class="btn" ng-click="showActivities()"><i class="fa fa-users"></i> Actividades <span class="text-muted">({{organization.activities.length}})</span></span></li>
+            </ul>
+        </div>
+    </header>
+
+
+    <div class="panel panel-default" data-ng-controller="organization-activities" ng-if="show_activities">
+        <div class="panel-header">
+            <h2 class="section-header">Actividades</h2>
+            <span class="btn btn-primary pull-right" ng-click="addActivity()">Agregar Actividad</span>
+        </div>
+        <div class="panel-body">
+            <div class="ui-timline-container">
+                <section class="ui-timeline">
+                        <article class="tl-item"  ng-repeat-start="(key,val) in activities_dates">
+                            <div class="tl-body">
+                                <div class="tl-entry">
+                                    <div class="tl-caption">
+                                        <a href="javascript:;" class="btn btn-primary btn-block">{{key | moment: 'DD MMM YYYY'}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+
+
+                        <article ng-repeat-end class="tl-item" ng-class-odd="'alt'" ng-repeat="activity in val" >
+                                <div class="tl-body">
+                                    <div class="tl-entry">
+                                        <div class="tl-time">{{activity.event_date | moment: 'HH:mm'}}</div>
+                                        <div class="tl-icon">
+                                            <img ng-src="http://images.collab-dev.com/60x60/smart/aruma/{{activity.main_picture}}" class="img-responsive img-rounded" >
+                                        </div>
+                                        <div class="tl-content" ng-click="viewActivity(activity.id)" style="cursor: pointer">
+                                            <h4 class="tl-tile text-primary">{{activity.title}}</h4>
+                                            <p>{{activity.description}}</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                        </article>
+
+                </section>
+            </div>
+
+        </div>
+    </div>
+ 
+
+    <div class="panel panel-default" data-ng-controller="organization-products" ng-if="show_products">
+        <div class="panel-header">
+            <h2 class="section-header">Productos</h2>
+            <span class="btn btn-primary pull-right" ng-click="addProduct()">Agregar Producto</span>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4" ng-repeat="product in products">
+                        <div class="card bg-white">
+                            <div class="card-image">
+                                <img ng-src="http://images.collab-dev.com/600x400/smart/aruma/{{product.main_picture}}" class="img-rounded img-responsive">
+                                <span class="card-title">{{product.name}}</span>
+                            </div>
+                            <div class="card-content">
+                            </div>
+                            <div class="card-action">
+                                <span class="btn btn-primary">Productos</span>
+                            </div>
+                        </div>            
+                    </div>            
+                </div>            
+            </div>
+
+        </div>
+    </div>
+ 
+ 
+</div>
+
+

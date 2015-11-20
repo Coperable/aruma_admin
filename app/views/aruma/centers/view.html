@@ -1,0 +1,123 @@
+
+<div class="page page-profile" data-ng-controller="centers-view">
+
+    <header class="profile-header">
+            <div class="row">
+                <div class="col-md-3 col-lg-3">
+                    <img ng-src="http://images.collab-dev.com/300x/smart/aruma/{{center.main_picture}}" class="img-rounded img-responsive">
+                </div>
+                <div class="col-md-9 col-lg-9">
+                    <h2>{{center.name}}</h2>
+                    <span class="btn btn-danger pull-right" ng-click="edit(center.id)">Editar</span>
+                </div>
+            </div>
+
+
+    </header>
+
+    <div class="panel panel-default" data-ng-controller="activities-list">
+        <div class="panel-header">
+            <h3 class="section-header">Actividades</h3>
+            <span class="btn btn-primary pull-right" ng-click="createActivity()">Crear</span>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-4" ng-repeat="activity in activities">
+                        <div class="card bg-white">
+                            <div class="card-image" style="min-height:135px">
+                                <img ng-src="http://images.collab-dev.com/600x400/smart/aruma/{{activity.cover_photo}}">
+                                <span class="card-title">{{activity.title}}</span>
+                            </div>
+                            <div class="card-content">
+                                <a class="card-button pull-right" href="javascript:;">
+                                    <button class="btn btn-icon btn-icon-round btn-floating btn-danger">
+                                        <i class="fa fa-heart"></i>
+                                    </button>
+                                </a>
+                                <p>{{activity.description}}</p>
+                                <p>{{activity.event_date}}</p>
+                            </div>
+                            <div class="card-action">
+                                <span class="btn btn-primary" ng-click="view(activity.id)">Ver</span>
+                                <span class="btn btn-secondary" ng-click="edit(activity.id)">Editar</span>
+                            </div>
+                        </div>            
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row ui-section" data-ng-controller="members-list">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header">Miembros</h2>
+            <a ui-sref="center-new" class="btn btn-danger pull-right">Agregar</a>
+        </div>
+        <div class="col-md-12">
+            <section class="panel panel-default table-dynamic">
+
+                <table class="table table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th><div class="th">
+                            
+                            </div></th>
+                            <th><div class="th">
+                               Nombre 
+                            </div></th>
+                            <th><div class="th">
+                            </div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="member in members" style="color:{{center.color}}" >
+                            <td>{{member.photo}}</td>
+                            <td>{{member.name}}</td>
+                            <td>
+                                <span class="btn btn-primary" ng-click="view(center.id)">Ver</span>
+                                <span class="btn btn-default" ng-click="edit(center.id)">Editar</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <footer class="table-footer">
+                    <div class="row">
+                        <div class="col-md-6 page-num-info">
+                            <span>
+                                Show 
+                                <select data-ng-model="numPerPage"
+                                        data-ng-options="num for num in numPerPageOpt"
+                                        data-ng-change="onNumPerPageChange()">
+                                </select> 
+                                entries per page
+                            </span>
+                        </div>
+                        <div class="col-md-6 text-right pagination-container">
+                            <pagination class="pagination-sm"
+                                        ng-model="currentPage"
+                                        total-items="filteredStores.length"
+                                        max-size="4"
+                                        ng-change="select(currentPage)"
+                                        items-per-page="numPerPage"
+                                        rotate="false"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        boundary-links="true"></pagination>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </div>
+ 
+
+ 
+</div>
+

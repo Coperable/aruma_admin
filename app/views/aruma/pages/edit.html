@@ -1,0 +1,94 @@
+<div class="page page-form">
+    <div class="row ui-section" data-ng-controller="pages-edit">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header" ng-if="page.id">Editando {{page.title}}</h2>
+            <h2 class="section-header" ng-if="!page.id">Nueva Página</h2>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form name="page_form" class="form-validation" novalidate data-ng-submit="submitForm()">
+                        <div class="form-group">
+                            <label for="">Título</label>
+                            <input  type="text" class="form-control" required data-ng-model="page.title" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Es Página Principal?</label>
+                            <md-switch name="is_home" class="md-primary" ng-model="page.is_home" aria-label="is_home" ng-true-value="true" ng-false-value="false" > {{ page.is_home ? 'SI' : 'NO'}} </md-switch>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Descripción</label>
+                            <textarea class="form-control" rows="10" required data-ng-model="page.description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="btn btn-primary btn-upload" upload-button 
+                                url="{{upload_url}}"
+                                param="file"
+                                data="formData"
+                                accept="image/*"
+                                multiple="false"
+                                force-iframe-upload="{{forceIframeUpload}}"
+                                required="false"
+                                on-upload="onUpload(files)" 
+                                on-success="onSuccess(response)" 
+                                on-error="onError(response)"
+                                on-complete="onComplete(response)">
+                                Subir Imágen Portada
+                            </div>
+                            <img ng-if="uploading" ng-src="/images/loading.gif" height="300px" class="img-responsive">
+                            <img ng-if="page.main_picture" ng-src="http://images.collab-dev.com/300x/smart/aruma/{{page.main_picture}}" class="img-rounded img-responsive">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="">Detalles</label>
+                            <textarea class="form-control" rows="10" required data-ng-model="page.details"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Twitter Link</label>
+                            <input  type="text" class="form-control" required data-ng-model="page.twitter_link" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Facebook Link</label>
+                            <input  type="text" class="form-control" required data-ng-model="page.facebook_link" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Instagram Link</label>
+                            <input  type="text" class="form-control" required data-ng-model="page.instagram_link" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Vimeo Link</label>
+                            <input  type="text" class="form-control" required data-ng-model="page.vimeo_link" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Pinterest Link</label>
+                            <input  type="text" class="form-control" required data-ng-model="page.pinterest_link" >
+                        </div>
+
+
+                        <button type="submit"
+                                ui-wave
+                                class="btn btn-primary btn-w-md"
+                                data-ng-disabled="!canSubmit()"
+                                >Guardar</button>
+                        <button class="btn btn-default btn-w-md"
+                                ui-wave
+                                data-ng-click="revert()"
+                        >Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
