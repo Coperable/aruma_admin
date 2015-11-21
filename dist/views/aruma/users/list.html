@@ -1,0 +1,69 @@
+<div class="page page-table" data-ng-controller="users-list">
+
+    <div class="row ui-section">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header">Usuarios</h2>
+            <a href="#/aruma/users/edit" class="btn btn-primary pull-right">Crear</a>
+        </div>
+        <div class="col-md-12">
+            <section class="panel panel-default table-dynamic">
+
+                <table class="table table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th><div class="th">
+                            </div></th>
+                            <th><div class="th">
+                                Usuario
+                            </div></th>
+                            <th><div class="th">
+                                Apellido - Nombre
+                            </div></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="user in users">
+                            <td>
+                                <img  ng-if="user.photo" ng-src="http://images.collab-dev.com/31x/smart/aruma/profiles/{{user.photo}}" alt="" class="img-circle img30_30">
+                            </td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.name}} {{user.lastname}}</td>
+                            <td><span class="btn btn-primary block-center" ng-click="view(user.id)">Ver</span></td>
+                            <!--td><span class="btn btn-default" ng-click="edit(user.id)">Editar</span></td-->
+                        </tr>
+                    </tbody>
+                </table>
+
+                <footer class="table-footer">
+                    <div class="row">
+                        <div class="col-md-6 page-num-info">
+                            <span>
+                                Show 
+                                <select data-ng-model="numPerPage"
+                                        data-ng-options="num for num in numPerPageOpt"
+                                        data-ng-change="onNumPerPageChange()">
+                                </select> 
+                                entries per page
+                            </span>
+                        </div>
+                        <div class="col-md-6 text-right pagination-container">
+                            <pagination class="pagination-sm"
+                                        ng-model="currentPage"
+                                        total-items="filteredStores.length"
+                                        max-size="4"
+                                        ng-change="select(currentPage)"
+                                        items-per-page="numPerPage"
+                                        rotate="false"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        boundary-links="true"></pagination>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </div>
+    
+</div>
+
+

@@ -1,0 +1,76 @@
+<div class="page page-form">
+    <div class="row ui-section" data-ng-controller="centers-edit">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header" ng-if="center.id">Editando {{center.name}}</h2>
+            <h2 class="section-header" ng-if="!center.id">Nuevo Centro</h2>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form name="center_form" class="form-validation" novalidate data-ng-submit="submitForm()">
+                        <div class="form-group">
+                            <label for="">Nombre</label>
+                            <input  type="text" class="form-control" required data-ng-model="center.title" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Descripción</label>
+                            <textarea class="form-control" rows="10" required data-ng-model="center.description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="btn btn-primary btn-upload" upload-button 
+                                url="{{upload_url}}"
+                                param="file"
+                                data="formData"
+                                accept="image/*"
+                                multiple="false"
+                                force-iframe-upload="{{forceIframeUpload}}"
+                                required="false"
+                                on-upload="onUpload(files)" 
+                                on-success="onSuccess(response)" 
+                                on-error="onError(response)"
+                                on-complete="onComplete(response)">
+                                Subir Imágen Portada
+                            </div>
+                            <img ng-if="uploading" ng-src="/images/loading.gif" height="300px" class="img-responsive">
+                            <img ng-if="organization.main_picture" ng-src="http://images.collab-dev.com/300x/smart/aruma/{{center.main_picture}}" class="img-rounded img-responsive">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="">Detalles</label>
+                            <textarea class="form-control" rows="10" required data-ng-model="center.details"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Dirección</label>
+                            <input id="center-location" class="form-control" type="text" placeholder="Ingresar dirección">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Twitter Hashtag</label>
+                            <input  type="text" class="form-control" required data-ng-model="center.twitter_hashtag" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Instagram Hashtag</label>
+                            <input  type="text" class="form-control" required data-ng-model="center.instagram_hashtag" >
+                        </div>
+
+                        <button type="submit"
+                                ui-wave
+                                class="btn btn-primary btn-w-md"
+                                data-ng-disabled="!canSubmit()"
+                                >Guardar</button>
+                        <button class="btn btn-default btn-w-md"
+                                ui-wave
+                                data-ng-click="revert()"
+                        >Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,127 @@
+<div class="page page-profile" data-ng-controller="users-view">
+
+    <header class="profile-header">
+            <h1 class="text-center">{{user.username}}</h1>
+            <span class="btn btn-danger pull-right" ng-click="edit(user.id)">Editar</span>
+    </header>
+
+    <div class="panel panel-default col-md-6">
+        <div class="panel-header">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Datos</h3>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <form name="user_form" class="form-validation" novalidate data-ng-submit="submitForm()">
+                    <div class="form-group">
+                        <label for="">Usuario</label>
+                        <input  type="text" class="form-control" required data-ng-model="user.username" >
+                    </div>
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input  type="text" class="form-control" required data-ng-model="user.email" >
+                    </div>
+                    <div class="form-group">
+                        <label for="">Nombre</label>
+                        <input  type="text" class="form-control" data-ng-model="user.name" >
+                    </div>
+                    <div class="form-group">
+                        <label for="">Apellido</label>
+                        <input  type="text" class="form-control" data-ng-model="user.lastname" >
+                    </div>
+                    <div class="row">
+                    <button type="submit"
+                            ui-wave
+                            class="btn btn-primary btn-w-md"
+                            data-ng-disabled="!canSubmit()"
+                            >Guardar</button>
+                    <button class="btn btn-default btn-w-md"
+                            ui-wave
+                            data-ng-click="revert()"
+                    >Cancelar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="col-md-6">
+        <div class="panel panel-default col-md-12">
+            <div class="panel-header">
+                <button ui-wave class="btn btn-raised btn-success center-block" ng-click="isRoleCollapsed = !isRoleCollapsed">Permisos</button>
+            </div>
+            <div class="panel-body" collapse="isRoleCollapsed">
+                <div class="col-md-12">
+                    <div class="row" ng-repeat="role in roles">
+                        <div class="col-md-6 text-right">
+                            <span>{{role.description}}</span>
+                        </div>
+                        <div class="col-md-6 block-left">
+                            <md-switch name="{{role.name}}_{{role.id}}" class="md-success" ng-model="role.assigned" aria-label="{{role.name}}" ng-true-value="true" ng-false-value="false"  ng-disabled="user.id == account.profile_id"> {{ role.assigned ? 'SI' : 'NO'}} </md-switch>
+                        </div>
+                    </div>
+                
+                </div>
+                <div class="row" ng-if="user.id != account.profile_id">
+                    <button type="submit" ui-wave class="btn btn-success btn-w-md" data-ng-disabled="!canSubmit()"  ng-click="saveRoles()">Actualizar</button>
+                    <button class="btn btn-default btn-w-md" ui-wave data-ng-click="revertRoles()">Cancelar</button>
+                </div>
+            </div>
+
+        </div>
+     
+        <div class="panel panel-default col-md-12">
+            <div class="panel-header">
+                <button ui-wave class="btn btn-raised btn-warning center-block" ng-click="isCenterCollapsed = !isCenterCollapsed">Centros</button>
+            </div>
+            <div class="panel-body" collapse="isCenterCollapsed">
+                <div class="col-md-12">
+                    <div class="row" ng-repeat="center in centers">
+                        <div class="col-md-6 text-right">
+                            <span>{{center.title}}</span>
+                        </div>
+                        <div class="col-md-6 block-left">
+                            <md-switch class="md-warning" ng-model="center.assigned" aria-label="{{center.title}}" ng-true-value="true" ng-false-value="false" ng-disabled="user.id == account.profile_id"> {{ center.assigned ? 'SI' : 'NO'}} </md-switch>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="user.id != account.profile_id">
+                    <button type="submit" ui-wave class="block-center btn btn-warning btn-w-md" data-ng-disabled="!canSubmit()" ng-click="saveCenters()">Actualizar</button>
+                    <button class="block-center btn btn-default btn-w-md" ui-wave data-ng-click="revertCenter()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default col-md-12">
+            <div class="panel-header">
+                <button ui-wave class="btn btn-raised btn-danger center-block" ng-click="isOrganizationCollapsed = !isOrganizationCollapsed">Emprendimientos</button>
+            </div>
+            <div class="panel-body" collapse="isOrganizationCollapsed">
+                <div class="col-md-12">
+                    <div class="row" ng-repeat="organization in organizations">
+                        <div class="col-md-6 text-right">
+                            <span>{{organization.name}}</span>
+                        </div>
+                        <div class="col-md-6 block-left">
+                            <md-switch class="md-danger" ng-model="organization.assigned" aria-label="{{organization.name}}" ng-true-value="true" ng-false-value="false" ng-disabled="user.id == account.profile_id"> {{ organization.assigned ? 'SI' : 'NO'}} </md-switch>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="user.id != account.profile_id">
+                    <button type="submit" ui-wave class="block-center btn btn-danger btn-w-md" data-ng-disabled="!canSubmit()" ng-click="saveOrganizations()">Actualizar</button>
+                    <button class="block-center btn btn-default btn-w-md" ui-wave data-ng-click="revertOrganization()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+ 
+</div>
+
+

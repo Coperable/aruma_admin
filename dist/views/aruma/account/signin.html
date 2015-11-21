@@ -1,0 +1,71 @@
+<div class="page-signin" >
+
+    <div class="signin-header">
+        <section class="logo text-center">
+            <h1><a href="/" class="text-uppercase">{{main.brand}}</a></h1>
+        </section>
+    </div>
+
+    <div class="wrapper" data-ng-controller="loginController">
+        <div class="main-body">
+            <div class="card bg-white" ng-if="normal_action">
+                <div class="card-content">
+                    <form method="post" ng-submit="doLogin()" name="loginForm" class="form-horizontal">
+                    <div class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="ui-input-group">      
+                                    <input type="text" required class="form-control" ng-model="user.email" autofocus>
+                                    <span class="input-bar"></span>
+                                    <label>Email</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="ui-input-group">      
+                                    <input type="password" required class="form-control" ng-model="user.password">
+                                    <span class="input-bar"></span>
+                                    <label>Password</label>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="form-group">
+                                <span href ng-click="doReset()" class="text-muted text-small">Olvidaste tu clave?</a>
+                            </div>
+                        </fieldset>
+                        <div class="card-action no-border text-right">
+                            <button type="submit" class="btn btn-primary">Ingresar</button>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+
+            <div class="card bg-white" ng-if="reset_action">
+                <div class="card-content">
+                    <div class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="ui-input-group">      
+                                    <input type="text" required class="form-control" ng-model="user.email_reset" autofocus>
+                                    <span class="input-bar"></span>
+                                    <label>Email</label>
+                                </div>
+                                <div class="additional-info text-center text-small">
+                                    Ingresa la cuenta de correo con la que te has registrado. Se te enviará un correo con el usuario y una dirección para cambiar tu clave. {{email_reset}}
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </fieldset>
+                        <div class="card-action no-border text-right">
+                            <a href ng-click="doNormal()">Ingresar</a>
+                            <span ng-click="doResetPassword()" class="btn btn-primary">Restablecer</button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+
+        </div>
+            
+    </div>
+
+</div>

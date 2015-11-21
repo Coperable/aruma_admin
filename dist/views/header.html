@@ -1,0 +1,67 @@
+<header class="top-header clearfix" data-ng-controller="session-bar-controller">
+
+    <div class="logo"
+         ng-class="{ 'bg-dark': ['11','31'].indexOf(admin.skin) >= 0,
+                     'bg-white': admin.skin === '21',
+                     'bg-primary': ['12','22','32'].indexOf(admin.skin) >= 0,
+                     'bg-success': ['13','23','33'].indexOf(admin.skin) >= 0,
+                     'bg-info-alt': ['14','24','34'].indexOf(admin.skin) >= 0,
+                     'bg-warning': ['15','25','35'].indexOf(admin.skin) >= 0,
+                     'bg-danger': ['16','26','36'].indexOf(admin.skin) >= 0
+                    }">
+        <a href="#/">
+            <span class="logo-icon imd imd-dashboard"></span>
+            <span class="logo-text">{{main.brand}}</span>
+        </a>
+    </div>
+
+    <div class="menu-button" toggle-off-canvas>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </div>
+
+    <div class="top-nav">
+        <ul class="nav-left list-unstyled">
+            <li>
+                <a href="#/" data-toggle-nav-collapsed-min
+                             ui-wave
+                             class="toggle-min"
+                             ><i class="imd imd-menu"></i></a>
+            </li>
+        </ul> 
+
+        <ul class="nav-right pull-right list-unstyled">
+
+            <li class="dropdown text-normal nav-profile"  dropdown is-open="status.isopenProfile">
+                <a href="javascript:;" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled" ui-wave>
+                    <img ng-src="http://images.collab-dev.com/31x/smart/aruma/profiles/{{profile.photo}}" alt="" class="img-circle img30_30">
+                    <span class="hidden-xs">
+                        <span data-translate="{{profile.username}}"></span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu with-arrow pull-right scaleInRight animated">
+                    <li>
+                        <a href="#/">
+                            <i class="imd imd-home"></i>
+                            <span data-translate="DASHBOARD"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#/user-view/{{profile.id}}">
+                            <i class="imd imd-person"></i>
+                            <span data-translate="MY_PROFILE"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href ng-click="logout()">
+                            <i class="imd imd-forward"></i>
+                            <span data-translate="LOG_OUT"></span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</header>

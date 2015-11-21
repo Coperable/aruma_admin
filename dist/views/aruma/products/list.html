@@ -1,0 +1,57 @@
+<div class="page page-table" data-ng-controller="products-list">
+
+    <div class="row ui-section">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header">Productos</h2>
+            <a ui-sref="product-new" class="btn btn-danger pull-right">Crear</a>
+        </div>
+        <div class="col-md-12">
+            <section class="panel panel-default table-dynamic">
+
+                <table class="table table-bordered table-striped table-responsive">
+                    <tbody>
+                        <tr data-ng-repeat="product in products" style="color:{{product.color}}" >
+                            <td> <img ng-src="http://images.collab-dev.com/100x/smart/aruma/{{product.main_picture}}" class="img-rounded img-responsive"></td>
+                            <td>{{product.title}}</td>
+                            <td>
+                                <span class="btn btn-primary" ng-click="view(product.id)">Ver</span>
+                                <span class="btn btn-default" ng-click="edit(product.id)">Editar</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <footer class="table-footer">
+                    <div class="row">
+                        <div class="col-md-6 page-num-info">
+                            <span>
+                                Show 
+                                <select data-ng-model="numPerPage"
+                                        data-ng-options="num for num in numPerPageOpt"
+                                        data-ng-change="onNumPerPageChange()">
+                                </select> 
+                                entries per page
+                            </span>
+                        </div>
+                        <div class="col-md-6 text-right pagination-container">
+                            <pagination class="pagination-sm"
+                                        ng-model="currentPage"
+                                        total-items="filteredStores.length"
+                                        max-size="4"
+                                        ng-change="select(currentPage)"
+                                        items-per-page="numPerPage"
+                                        rotate="false"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        boundary-links="true"></pagination>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </div>
+    
+</div>
+
+
+
+

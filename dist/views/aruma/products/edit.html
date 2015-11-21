@@ -1,0 +1,64 @@
+<div class="page page-form">
+
+    <div class="row ui-section"  data-ng-controller="product-edit" ng-cloak>
+        <div class="col-lg-8 clearfix">
+            <h2 ng-show="!product.id" class="section-header">Nuevo Producto</h2>
+            <h2 ng-show="product.id" class="section-header">Edición Producto</h2>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form name="product_form" class="form-validation" novalidate data-ng-submit="submitForm()">
+                        <div class="form-group">
+                            <label for="">Nombre</label>
+                            <input  type="text" class="form-control" required data-ng-model="product.name" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Descripción</label>
+                            <textarea class="form-control" rows="10" required data-ng-model="product.description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="btn btn-primary btn-upload" upload-button 
+                                url="{{upload_url}}"
+                                param="file"
+                                data="formData"
+                                accept="image/*"
+                                multiple="false"
+                                force-iframe-upload="{{forceIframeUpload}}"
+                                required="false"
+                                on-upload="onUpload(files)" 
+                                on-success="onSuccess(response)" 
+                                on-error="onError(response)"
+                                on-complete="onComplete(response)">
+                                Subir Imágen Portada
+                            </div>
+                            <img ng-if="uploading" ng-src="/images/loading.gif" height="300px" class="img-responsive">
+                            <img ng-if="product.main_picture" ng-src="http://images.collab-dev.com/300x/smart/aruma/{{product.main_picture}}" class="img-rounded img-responsive">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Detalles</label>
+                            <textarea class="form-control" rows="10" required data-ng-model="product.details"></textarea>
+                        </div>
+
+                        <button type="submit"
+                                ui-wave
+                                class="btn btn-primary btn-w-md"
+                                data-ng-disabled="!canSubmit()"
+                                >Guardar</button>
+                        <button class="btn btn-default btn-w-md"
+                                ui-wave
+                                data-ng-click="revert()"
+                        >Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
