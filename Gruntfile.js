@@ -9,9 +9,6 @@
         port: LIVERELOAD_PORT
     });
 
-
-    /* var conf = require('./conf.'+process.env.NODE_ENV); */
-
     mountFolder = function(connect, dir) {
         return connect["static"](require("path").resolve(dir));
     };
@@ -21,17 +18,14 @@
         require("load-grunt-tasks")(grunt);
         require("time-grunt")(grunt);
 
-        /* configurable paths */
         yeomanConfig = {
             app: "app",
-            dist: "dist",
-            docs: "documentation",
-            landing: "landing",
-            landingDist: "dist-landing"
+            dist: "dist"
         };
         try {
             yeomanConfig.app = require("./bower.json").appPath || yeomanConfig.app;
         } catch (_error) {}
+
         grunt.initConfig({
             yeoman: yeomanConfig,
             cnf: grunt.file.readJSON('config.json'),
@@ -47,18 +41,6 @@
                 gruntfile: {
                     files: ['Gruntfile.js']
                 },
-                jadeDocs: {
-                    files: ["<%= yeoman.docs %>/jade/*.jade"],
-                    tasks: ["jade:docs"]
-                },
-                compassLanding: {
-                    files: ["<%= yeoman.landing %>/styles/**/*.{scss,sass}"],
-                    tasks: ["compass:landing"]
-                },
-                jadeLanding: {
-                    files: ["<%= yeoman.landing %>/jade/*.jade"],
-                    tasks: ["jade:landing"]
-                },
                 livereload: {
                     options: {
                         livereload: LIVERELOAD_PORT
@@ -71,10 +53,6 @@
                         ".tmp/styles/**/*.css", 
                         "{.tmp,<%= yeoman.app %>}/scripts/**/*.js", 
                         "<%= yeoman.app %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}", 
-                        "<%= yeoman.docs %>/jade/*.jade",
-                        "<%= yeoman.landing %>/jade/*.jade",
-                        "<%= yeoman.landing %>/styles/**/*.{scss,sass}",
-                        "<%= yeoman.landing %>/scripts/**/*.js"
                     ]
                 }
             },
@@ -91,27 +69,12 @@
                                     res.setHeader('Access-Control-Allow-Origin', '*');
                                     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
                                     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-                                    // don't just call next() return it
                                     return next();
                                 },
                                 lrSnippet, 
                                 mountFolder(connect, ".tmp"), 
                                 mountFolder(connect, yeomanConfig.app)
                             ];
-                        }
-                    }
-                },
-                docs: {
-                    options: {
-                        middleware: function(connect) {
-                            return [lrSnippet, mountFolder(connect, yeomanConfig.docs)];
-                        }
-                    }
-                },
-                landing: {
-                    options: {
-                        middleware: function(connect) {
-                            return [lrSnippet, mountFolder(connect, yeomanConfig.landing)];
                         }
                     }
                 },
@@ -144,20 +107,8 @@
                         }
                     ]
                 },
-                landing: {
-                    files: [
-                        {
-                            dot: true,
-                            src: [
-                                "<%= yeoman.landing %>/vendors"
-                            ]
-                        }
-                    ]
-                },
                 all: [
                     ".tmp", ".DS_Store", ".sass-cache",
-                    "documentation/jade",
-                    "<%= yeoman.landing %>/jade", 
                     "readme.md"
                 ],
                 server: ".tmp"
@@ -206,15 +157,6 @@
                         debugInfo: false,
                         noLineComments: false
                     }
-                },
-                landing: {
-                    options: {
-                        sassDir: "<%= yeoman.landing %>/styles",
-                        cssDir: "<%= yeoman.landing %>/css",
-                        sourcemap: false,
-                        debugInfo: false,
-                        noLineComments: true
-                    }
                 }
             },
             less: {
@@ -250,24 +192,6 @@
                             ext: ".css"
                         }
                     ]
-                }
-            },
-            jade: {
-                docs: {
-                    options: {
-                        pretty: true
-                    },
-                    files: {
-                        "<%= yeoman.docs %>/index.html": ["<%= yeoman.docs %>/jade/index.jade"]
-                    }
-                },
-                landing: {
-                    options: {
-                        pretty: true
-                    },
-                    files: {
-                        "<%= yeoman.landing %>/index.html": ["<%= yeoman.landing %>/jade/index.jade"]
-                    }
                 }
             },
             useminPrepare: {
@@ -343,25 +267,6 @@
                     cwd: "<%= yeoman.app %>/styles",
                     dest: ".tmp/styles/",
                     src: "**/*.css"
-                },
-                landing: {
-                    files: [
-                        {
-                            expand: true,
-                            dot: true,
-                            cwd: "<%= yeoman.landing %>/bower_components",
-                            dest: "<%= yeoman.landing %>/vendors",
-                            src: [
-                                "jquery/dist/jquery.min.js",
-                                "bootstrap/dist/js/bootstrap.min.js",
-                                "jquery-smooth-scroll/jquery.smooth-scroll.min.js",
-                                "jquery.stellar/jquery.stellar.min.js",
-                                "wow/dist/wow.min.js",
-                                "material-design-iconic-font/css/*",
-                                "material-design-iconic-font/fonts/*"
-                            ]
-                        }
-                    ]
                 }
             },
             concurrent: {
@@ -421,15 +326,6 @@
             }
             return grunt.task.run(["clean:server", "concurrent:server", "connect:livereload", "watch"]);
         });
-        grunt.registerTask("docs", function() {
-            return grunt.task.run(["jade:docs", "connect:docs", "watch"]);
-        });
-        grunt.registerTask("landing", function() {
-            // if (target === "dist") {
-            // }
-            return grunt.task.run(["clean:landing", "copy:landing", "jade:landing", "compass:landing", "connect:landing", "watch"]);
-        });
-
         grunt.registerTask("build", ["clean:dist", "ngconstant", "useminPrepare", "concurrent:dist", "copy:dist", "cssmin", "concat", "uglify", "usemin"]);
         return grunt.registerTask("default", ["server"]);
     };

@@ -75,6 +75,7 @@ angular.module('app.organizations')
     $scope.onComplete = function(response) {
         $scope.uploading = false;
         $scope.organization.main_picture = response.data.filename;
+        $scope.organization.media_id = response.data.media_id;
     };
 
 
@@ -107,6 +108,7 @@ angular.module('app.organizations')
 
     $scope.show_activities = false;
     $scope.show_products = true;
+    $scope.show_medias = false;
 
     Organization.get({
         id: $stateParams.organizationId
@@ -114,23 +116,26 @@ angular.module('app.organizations')
         $scope.organization = data;
         $scope.activities = $scope.organization.activities;
         $scope.products = $scope.organization.products;
+        $scope.medias = $scope.organization.medias;
     });
 
     $scope.showActivities = function() {
         $scope.show_activities = true;
         $scope.show_products = false;
+        $scope.show_medias = false;
+    };
+
+    $scope.showMedias = function() {
+        $scope.show_activities = false;
+        $scope.show_products = false;
+        $scope.show_medias = true;
     };
 
     $scope.showProducts = function() {
         console.log('click in products');
         $scope.show_activities = false;
         $scope.show_products = true;
-    };
-
-    $scope.showCups = function() {
-        console.log('click in cups');
-        $scope.show_activities = false;
-        $scope.show_products = false;
+        $scope.show_medias = false;
     };
 
     $scope.edit = function(id) {
@@ -189,7 +194,57 @@ angular.module('app.organizations')
     };
 
 }])
+.controller('organization-medias', ['$scope', '$http', '$state', 'api_host', 'logger', 'Organization', function($scope, $http, $state, api_host, logger, Organization) {
+    
+    $scope.media = {};
+    $scope.adding_media = false;
+    $scope.upload_url = api_host+'/api/media/organization/'+$scope.organization.id+'/upload';
+    $scope.uploading = false;
 
+    $scope.addMedia = function() {
+        $scope.adding_media = true;
+    };
+
+    $scope.selectAsMainPicture = function(media) {
+        $http.post(api_host+'/api/organization/'+$scope.organization.id+'/mainPicture/'+media.id, {
+
+        }).success(function(data) {
+            $scope.organization.main_picture = data.name;
+            logger.logSuccess("Se estableció imagen como principal"); 
+        });
+    };
+
+    $scope.cancelUpload = function() {
+        $scope.media = {};
+        $scope.adding_media = false;
+    };
+
+    $scope.onUpload = function(response) {
+        $scope.uploading = true;
+    };
+
+    $scope.onError = function(response) {
+        logger.logError('Surgió un error al subir imagen.'); 
+        $scope.uploading = false;
+    };
+
+    $scope.onComplete = function(response) {
+        logger.logSuccess("Se agregó imagen con éxito!"); 
+        $scope.uploading = false;
+        $scope.adding_media = false;
+        $scope.fetchMedias();
+    };
+
+    $scope.fetchMedias = function() {
+        $http.get(api_host+'/api/organization/'+$scope.organization.id+'/medias') 
+        .success(function(data) {
+            $scope.medias = data;
+        });
+
+    };
+
+
+}]);
 
 
 })(); 

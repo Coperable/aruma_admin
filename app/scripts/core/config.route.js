@@ -46,6 +46,13 @@
                     skipIfLoggedIn: skipIfLoggedIn
                 }
             })
+            .state('home', {
+                url: '/',
+                templateUrl: 'views/dashboard.html',
+                resolve: {
+                    loginRequired: loginRequired
+                }
+            })
             .state('dashboard', {
                 url: '/dashboard',
                 templateUrl: 'views/dashboard.html',
@@ -174,7 +181,7 @@
             });
 
             $urlRouterProvider
-                .when('/', '/dashboard')
+                //.when('/', '/dashboard')
                 .otherwise('/login');
 
             function skipIfLoggedIn($q, $auth) {

@@ -20,6 +20,7 @@
             <ul class="list-unstyled list-inline">
                 <li><span class="btn" ng-click="showProducts()"><i class="fa fa-box"></i> Productos <span class="text-muted">({{organization.products.length}})</span></span></li>
                 <li><span class="btn" ng-click="showActivities()"><i class="fa fa-users"></i> Actividades <span class="text-muted">({{organization.activities.length}})</span></span></li>
+                <li><span class="btn" ng-click="showMedias()"><i class="fa fa-users"></i> Imagenes <span class="text-muted">({{organization.medias.length}})</span></span></li>
             </ul>
         </div>
     </header>
@@ -95,7 +96,69 @@
         </div>
     </div>
  
- 
+    <div class="panel panel-default" data-ng-controller="organization-medias" ng-if="show_medias">
+        <div class="panel-header">
+            <h2 class="section-header">Galería</h2>
+            <span class="btn btn-primary pull-right" ng-click="addMedia()" ng-hide="adding_media">Agregar Imágen</span>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12" ng-show="adding_media">
+                <div class="form-group">
+                    <label for="">Titulo</label>
+                    <input  type="text" class="form-control" required data-ng-model="media.title" >
+                </div>
+                <div class="form-group">
+                    <label for="">Descripción</label>
+                    <textarea class="form-control" rows="3" data-ng-model="media.description"></textarea>
+                </div>
+                <div class="form-group">
+                    <img ng-if="uploading" ng-src="/images/loading.gif" height="300px" class="img-responsive">
+                </div>
+
+                <div class="btn btn-primary btn-upload" upload-button 
+                    url="{{upload_url}}"
+                    param="file"
+                    data="media"
+                    accept="image/*"
+                    multiple="false"
+                    force-iframe-upload="{{forceIframeUpload}}"
+                    required="false"
+                    on-upload="onUpload(files)" 
+                    on-success="onSuccess(response)" 
+                    on-error="onError(response)"
+                    on-complete="onComplete(response)">
+                    Subir Imágen
+                </div >
+                <button class="btn btn-default btn-w-md" ui-wave data-ng-click="cancelUpload()">Cancelar</button>
+            </div>
+            <div class="col-md-12" ng-hide="adding_media">
+                <div class="row">
+                    <div class="col-md-4" ng-repeat="media in medias">
+                        <div class="ih-item ih-material">
+                            <a href ng-click="selectAsMainPicture(media)">
+                                <div class="img">
+                                    <img ng-src="http://images.collab-dev.com/600x400/smart/aruma/{{media.name}}">
+                                </div>
+                                <div class="info">
+                                    <div class="info-mask bg-primary"></div>
+                                    <div class="info-content">
+                                        <div class="info-inner">
+                                            <h3>{{media.title}}</h3>
+                                            <p>{{media.description}}</p>
+                                            <p>(establecer principal)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>                            
+                    </div>                            
+
+                </div>            
+            </div>
+
+        </div>
+    </div>
+  
 </div>
 
 
