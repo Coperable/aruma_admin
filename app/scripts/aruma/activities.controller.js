@@ -4,7 +4,62 @@
     angular.module('app.activities')
         .controller('activity-list', ['$scope', '$window', '$state', 'Activity', activitiesList])
         .controller('activity-edit', ['$scope', '$stateParams', '$state', '$location', '$timeout', 'logger', 'api_host', 'Activity', activitiesEdit])
-        .controller('activity-view', ['$scope', '$window', 'Activity', '$location', '$state', '$stateParams', activitiesView]);
+        .controller('activity-view', ['$scope', '$window', 'Activity', '$location', '$state', '$stateParams', activitiesView])
+.controller('activity-medias', ['$scope', '$http', '$state', 'api_host', 'logger', 'Organization', function($scope, $http, $state, api_host, logger, Organization) {
+    
+    $scope.media = {};
+    $scope.adding_media = false;
+    $scope.getUploadUrl = function() {
+        return api_host+'/api/media/activity/'+$scope.activity.id+'/upload';
+    };
+    $scope.uploading = false;
+
+    $scope.addMedia = function() {
+        $scope.adding_media = true;
+    };
+
+    $scope.selectAsMainPicture = function(media) {
+        $http.post(api_host+'/api/activity/'+$scope.activity.id+'/mainPicture/'+media.id, {
+
+        }).success(function(data) {
+            $scope.activity.main_picture = data.name;
+            logger.logSuccess("Se estableció imagen como principal"); 
+        });
+    };
+
+    $scope.cancelUpload = function() {
+        $scope.media = {};
+        $scope.adding_media = false;
+        $scope.media = {};
+    };
+
+    $scope.onUpload = function(response) {
+        $scope.uploading = true;
+    };
+
+    $scope.onError = function(response) {
+        logger.logError('Surgió un error al subir imagen.'); 
+        $scope.uploading = false;
+    };
+
+    $scope.onComplete = function(response) {
+        logger.logSuccess("Se agregó imagen con éxito!"); 
+        $scope.uploading = false;
+        $scope.adding_media = false;
+        $scope.media = {};
+        $scope.fetchMedias();
+    };
+
+    $scope.fetchMedias = function() {
+        $http.get(api_host+'/api/activity/'+$scope.activity.id+'/medias') 
+        .success(function(data) {
+            $scope.medias = data;
+        });
+
+    };
+
+
+}]);
 
     function activitiesList($scope, $window, $state, Activity) {
         $scope.activities = [];
@@ -125,6 +180,7 @@
         $scope.onComplete = function(response) {
             $scope.uploading = false;
             $scope.activity.main_picture = response.data.filename;
+            $scope.activity.media_id = response.data.media_id;
         };
 
     }

@@ -4,10 +4,122 @@
     angular.module('app.centers')
         .controller('centers-list', ['$scope', '$window', '$state', 'Center', centersList])
         .controller('centers-edit', ['$scope', '$stateParams', '$state', '$location', '$timeout', 'api_host', 'Center', centersEdit])
-        .controller('centers-view', ['$scope', '$window', 'Center', '$location', '$state', '$stateParams', centersView])
         .controller('members-list', ['$scope', '$state', 'Center', 'User', membersList])
-        .controller('activities-list', ['$scope', '$state', 'Center', 'Activity', activitiesList]);
+        .controller('activities-list', ['$scope', '$state', 'Center', 'Activity', activitiesList])
+        .controller('center-view', ['$scope', '$window', 'Center', '$location', '$state', '$stateParams', function($scope, $window, Center, $location, $state, $stateParams) {
+            $scope.center = {};
 
+            $scope.show_activities = false;
+            $scope.show_organization = true;
+
+            Center.get({
+                id: $stateParams.centerId
+            }, function(data) {
+                $scope.center = data;
+                $scope.activities = $scope.center.activities;
+                $scope.organizations = $scope.center.organizations;
+            });
+
+            $scope.showActivities = function() {
+                $scope.show_activities = true;
+                $scope.show_organization = false;
+            };
+
+            $scope.showMedias = function() {
+                $scope.show_activities = false;
+                $scope.show_organization = false;
+            };
+
+            $scope.showOrganizations = function() {
+                $scope.show_activities = false;
+                $scope.show_organization = true;
+            };
+
+            $scope.edit = function(id) {
+                $state.go('center-edit', {
+                    centerId: id
+                }); 
+            };
+
+
+}])
+.controller('center-activities', ['$scope', '$state', function($scope, $state) {
+
+    $scope.activities_dates = [];
+
+    $scope.viewActivity = function(id) {
+        console.log('view '+id);
+        $state.go('activity-view', {
+            activityId: id
+        }); 
+    };
+
+    $scope.addActivity = function() {
+        console.log('Add Activity: '+$scope.organization.id);
+        $state.go('activity-new', {
+            type: 'organization',
+            id: $scope.organization.id
+        });
+    };
+
+    $scope.process_dates = function() {
+        $scope.activities_dates = _.groupBy($scope.activities, function(item) {
+            return moment(item.event_date).startOf('day');
+        });
+        console.dir($scope.activities_dates);
+    };
+
+    $scope.process_dates();
+
+    console.log('activities');
+}])
+.controller('center-organizations', ['$scope', '$state', '$http', 'logger', 'api_host', 'Organization', function($scope, $state, $http, logger, api_host, Organization) {
+
+    $scope.viewOrganizaion = function(id) {
+        console.log('view '+id);
+        $state.go('organization-view', {
+            organizationId: id
+        }); 
+    };
+
+    $scope.adding_organization = false;
+    $scope.organizations_to_add = [];
+    $scope.addOrganization = function() {
+        $scope.adding_organization = true;
+        Organization.query(function(data) {
+            $scope.organizations_to_add = _.filter(data, function(item) {
+                var result = _.find($scope.center.organizations, function(existing_item) {
+                    return item.id == !existing_item.id;
+                });
+                console.log('result: '+result);
+                return result ? false : true;
+            });
+            console.dir($scope.organizations_to_add);
+        });
+    };
+
+    $scope.addToCenter = function(organization) {
+        $http.post(api_host+'/api/center/'+$scope.center.id+'/organization/'+organization.id, {
+
+        }).success(function(data) {
+            $scope.organizations = data;
+            logger.logSuccess("Se agregó emprendimiento al centro"); 
+        });
+
+    };
+
+    $scope.removeOrganization = function(organization) {
+        $http.post(api_host+'/api/center/'+$scope.center.id+'/remove/organization/'+organization.id, {
+
+        }).success(function(data) {
+            $scope.organizations = data;
+            logger.logSuccess("Se quito emprendimiento del centro"); 
+        });
+
+    };
+
+
+}]);
     function centersList($scope, $window, $state, Center) {
         $scope.centers = [];
 
@@ -45,6 +157,7 @@
 
         } else {
             $scope.center = new Center({
+
             });
             $timeout(function() {
                 $scope.setup_component();
@@ -57,16 +170,37 @@
         };
 
         $scope.revert = function() {
-            $scope.center = new Center({});
+            if($scope.center.id) {
+                $state.go('center-view', {
+                    centerId: $scope.center.id
+                }); 
+            } else {
+                $location.url('/aruma/centers/list');
+            }
         };
 
         $scope.submitForm = function() {
-            $scope.center.$save(function() {
-                console.log('guardado');
-                $location.url('/aruma/centers/list');
-            }).catch(function(response) {
-                console.log('error: '+response);
-            });
+
+            if($scope.center.id) {
+                $scope.center.$update(function() {
+                    logger.logSuccess("El centro fue actualizado con éxito!"); 
+                    $state.go('center-view', {
+                        centerId: $scope.center.id
+                    }); 
+                }).catch(function(response) {
+                    logger.logError(response.message); 
+                });
+            } else {
+                $scope.center.$save(function() {
+                    logger.logSuccess("El centro fue creado con éxito!"); 
+                    $state.go('center-view', {
+                        centerId: $scope.center.id
+                    }); 
+                }).catch(function(response) {
+                    logger.logError(response.message); 
+                });
+            }
+
         };
 
         if($stateParams.centerId) {
@@ -111,43 +245,6 @@
         $timeout(function() {
             $scope.setup_component();
         }, 1000);
-
-    }
-
-    function centersView($scope, $window, Center, $location, $state, $stateParams) {
-        $scope.center = {};
-        $scope.organizations = [];
-        $scope.activities = [];
-
-        console.log('Center view id: '+$stateParams.centerId);
-        Center.get({
-            id: $stateParams.centerId
-        }, function(data) {
-            $scope.center = data;
-            $scope.organizations = $scope.center.organizations;
-            $scope.activities = $scope.center.activities;
-        });
-
-        $scope.createActivity = function() {
-            console.log('create activity');
-            $state.go('activity-new', {
-                centerId: $scope.center.id
-            }); 
-        };
-
-
-        $scope.createOrganization = function() {
-            console.log('create organization');
-            $state.go('organization-new', {
-                centerId: $scope.center.id
-            }); 
-        };
-
-        $scope.edit = function(id) {
-            $state.go('center-edit', {
-                centerId: id
-            }); 
-        };
 
     }
 
