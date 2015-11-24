@@ -16,6 +16,9 @@ angular.module('app.organizations')
 
     } else {
         $scope.organization = new Organization({
+            what_for_title: 'Para qué?',
+            how_title: 'Cómo?',
+            why_title: 'Para qué?'
         });
         $timeout(function() {
             $scope.setup_component();

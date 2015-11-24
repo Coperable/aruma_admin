@@ -32,6 +32,20 @@
                         <label for="">Apellido</label>
                         <input  type="text" class="form-control" data-ng-model="user.lastname" >
                     </div>
+                    <div class="form-group" ng-show="!change_password" ng-if="user.id == account.profile_id">
+                        <span ui-wave class="btn btn-danger btn-w-md" ng-click="changePassword()">Cambiar Password</span>
+
+                    </div>
+                    <div ng-show="change_password" ng-if="user.id == account.profile_id">
+                        <div class="form-group">
+                            <label for="">Password Actual</label>
+                            <input  type="password" class="form-control" data-ng-model="user.current_password" >
+                        </div>
+                        <div class="form-group" ng-show="user.id == account.profile_id">
+                            <label for="">Nuevo Password</label>
+                            <input  type="password" class="form-control" data-ng-model="user.password" >
+                        </div>
+                    </div>
                     <div class="row">
                     <button type="submit"
                             ui-wave

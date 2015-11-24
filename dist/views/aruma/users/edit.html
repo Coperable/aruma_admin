@@ -26,6 +26,10 @@
                             <label for="">Apellido</label>
                             <input  type="text" class="form-control" data-ng-model="user.lastname" >
                         </div>
+                        <div class="form-group">
+                            <label for="">Password</label>
+                            <input type="{{user.id ? 'password' : 'text'}}" class="form-control" data-ng-model="user.password" >
+                        </div>
                         <div class="row">
                         <button type="submit"
                                 ui-wave
