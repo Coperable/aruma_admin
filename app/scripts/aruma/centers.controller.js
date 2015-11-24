@@ -55,10 +55,10 @@
     };
 
     $scope.addActivity = function() {
-        console.log('Add Activity: '+$scope.organization.id);
+        console.log('Add Activity: '+$scope.center.id);
         $state.go('activity-new', {
-            type: 'organization',
-            id: $scope.organization.id
+            type: 'center',
+            id: $scope.center.id
         });
     };
 
