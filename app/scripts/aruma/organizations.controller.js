@@ -148,6 +148,7 @@ angular.module('app.organizations')
     };
 
 
+
 }])
 .controller('organization-activities', ['$scope', '$state', function($scope, $state) {
 
@@ -195,6 +196,14 @@ angular.module('app.organizations')
             productId: id
         }); 
     };
+
+    $scope.editProduct = function(product) {
+        $state.go('product-edit', {
+            productId: product.id
+        }); 
+    };
+
+
 
 }])
 .controller('organization-medias', ['$scope', '$http', '$state', 'api_host', 'logger', 'Organization', function($scope, $http, $state, api_host, logger, Organization) {

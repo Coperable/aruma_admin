@@ -61,8 +61,8 @@
             if($scope.product.id) {
                 $scope.product.$update(function() {
                     logger.logSuccess("El producto fue actualizado"); 
-                    $state.go('product-view', {
-                        productId: $scope.product.id
+                    $state.go('organization-view', {
+                        organizationId: $scope.product.organization_id
                     });
                 }).catch(function(response) {
                     console.log('error: '+response);
@@ -71,8 +71,8 @@
             } else {
                 $scope.product.$save(function() {
                     logger.logSuccess("El producto fue creado"); 
-                    $state.go('product-view', {
-                        productId: $scope.product.id
+                    $state.go('organization-view', {
+                        organizationId: $scope.product.organization_id
                     });
                 }).catch(function(response) {
                     console.log('error: '+response);
