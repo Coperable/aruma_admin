@@ -9,10 +9,22 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <form name="organization_form" class="form-validation" novalidate data-ng-submit="submitForm()">
-                        <div class="form-group">
-                            <label for="">Nombre</label>
-                            <input  type="text" class="form-control" required data-ng-model="organization.name" >
+                        <div class="form-group row" >
+                            <div class="col-md-8">
+                                <label for="">Nombre</label>
+                                <input  type="text" class="form-control" required data-ng-model="organization.name" >
+                            </div>
+                            <div class="col-md-4">
+                                <label> Desplegar nombre en página?
+                                <md-switch name="show_title" class="md-primary" ng-model="organization.show_title" aria-label="show_title" ng-true-value="true" ng-false-value="false" > {{ organization.show_title? 'SI' : 'NO'}} </md-switch>
+                            </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="is_home">Es Laboratorio?</label>
+                            <md-switch name="is_home" class="md-primary" ng-model="organization.is_home" aria-label="is_home" ng-true-value="true" ng-false-value="false" > {{ organization.is_home ? 'SI' : 'NO'}} </md-switch>
+                        </div>
+
                         <div class="form-group">
                             <label for="">Descripción</label>
                             <textarea class="form-control" rows="8" data-ng-model="organization.description"></textarea>
