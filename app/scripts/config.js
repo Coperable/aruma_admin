@@ -2,7 +2,7 @@
 
 angular.module('config', [])
 
-.constant('api_host', 'http://aruma.coperable.org')
+.constant('api_host', 'http://arumalab.com')
 
 .value('debug', true)
 
