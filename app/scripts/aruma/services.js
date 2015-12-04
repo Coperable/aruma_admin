@@ -181,7 +181,13 @@ angular.module('app.services', [])
         }
     });
 }])
-
+.factory('GeoPoint',['$resource', 'api_host', function($resource, api_host){
+    return $resource(api_host+'/api/geopoints/:id', { id:'@id' }, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('User',['$resource', 'api_host', function($resource, api_host){
     return $resource(api_host+'/api/users/:id', { id:'@id' }, {
         update: {

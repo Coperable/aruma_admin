@@ -195,13 +195,10 @@
             }
 
             function loginRequired($q, $location, $state, $auth) {
-                console.log('login required');
                 var deferred = $q.defer();
                 if ($auth.isAuthenticated()) {
-                    console.log('defer');
                     deferred.resolve();
                 } else {
-                    console.log('login');
                     //$state.go('login');
                     $location.path('/login');
                 }

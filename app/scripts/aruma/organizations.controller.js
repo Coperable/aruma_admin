@@ -26,6 +26,17 @@ angular.module('app.organizations')
 
     }
 
+    $scope.refresh = function() {
+        Organization.get({
+            id: $stateParams.organizationId
+        }, function(data) {
+            $scope.organization = data;
+            $scope.setup_component();
+        });
+    };
+
+
+
     $scope.canSubmit = function() {
         return $scope.organization_form.$valid;
     };
@@ -112,6 +123,7 @@ angular.module('app.organizations')
     $scope.show_activities = false;
     $scope.show_products = true;
     $scope.show_medias = false;
+    $scope.show_geopoints = false;
 
     Organization.get({
         id: $stateParams.organizationId
@@ -120,18 +132,21 @@ angular.module('app.organizations')
         $scope.activities = $scope.organization.activities;
         $scope.products = $scope.organization.products;
         $scope.medias = $scope.organization.medias;
+        $scope.geopoints = $scope.organization.geopoints;
     });
 
     $scope.showActivities = function() {
         $scope.show_activities = true;
         $scope.show_products = false;
         $scope.show_medias = false;
+        $scope.show_geopoints = false;
     };
 
     $scope.showMedias = function() {
         $scope.show_activities = false;
         $scope.show_products = false;
         $scope.show_medias = true;
+        $scope.show_geopoints = false;
     };
 
     $scope.showProducts = function() {
@@ -139,8 +154,18 @@ angular.module('app.organizations')
         $scope.show_activities = false;
         $scope.show_products = true;
         $scope.show_medias = false;
+        $scope.show_geopoints = false;
     };
 
+    $scope.showGeoPoints = function() {
+        console.log('click in products');
+        $scope.show_activities = false;
+        $scope.show_products = false;
+        $scope.show_medias = false;
+        $scope.show_geopoints = true;
+    };
+
+ 
     $scope.edit = function(id) {
         $state.go('organization-edit', {
             organizationId: id
@@ -179,6 +204,84 @@ angular.module('app.organizations')
     $scope.process_dates();
 
     console.log('activities');
+}])
+.controller('organization-geopoints', ['$scope', '$state', '$http', 'logger', 'GeoPoint', 'api_host', function($scope, $state, $http, logger, GeoPoint, api_host) {
+    $scope.adding_geo = false;
+    $scope.geoPoint = new GeoPoint();
+
+    $scope.deleteGeoPoint = function() {
+        $scope.geoPoint.$remove(function() {
+            logger.logSuccess("El punto de venta fue removido"); 
+            $scope.fetchGeopoints();
+            $scope.adding_geo = false;
+        }).catch(function(response) {
+            logger.logError(response.message); 
+        });
+    };
+
+    $scope.cancelGeoPoint = function() {
+        $scope.geoPoint = new GeoPoint();
+        $scope.adding_geo = false;
+    };
+
+    $scope.submitGeoPoint = function() {
+        $scope.adding_geo = false;
+
+        $scope.geoPoint.organization_id = $scope.organization.id;
+
+        if($scope.geoPoint.id) {
+            $scope.geoPoint.$update(function() {
+                logger.logSuccess("El punto de venta fue actualizado con éxito!"); 
+                $scope.fetchGeopoints();
+            }).catch(function(response) {
+                logger.logError(response.message); 
+            });
+        } else {
+            $scope.geoPoint.$save(function() {
+                logger.logSuccess("El punto de venta fue creado con éxito!"); 
+                $scope.fetchGeopoints();
+            }).catch(function(response) {
+                logger.logError(response.message); 
+            });
+        }
+    };
+
+    $scope.fetchGeopoints = function() {
+        $http.get(api_host+'/api/organization/'+$scope.organization.id+'/geopoints') 
+        .success(function(data) {
+            $scope.geopoints = data;
+        });
+    };
+
+    $scope.editGeoPoint = function(geo) {
+        $scope.adding_geo = true;
+        $scope.geoPoint = new GeoPoint(geo);
+        console.dir($scope.geoPoint);
+        $scope.setup_component();
+    };
+
+    $scope.addGeoPoint = function() {
+        $scope.adding_geo = true;
+        $scope.geoPoint = new GeoPoint({});
+        $scope.setup_component();
+    };
+
+    $scope.setup_component = function () {
+        var input = document.getElementById('geopoint-location'),
+        options = {
+            types: ['address'],
+            componentRestrictions: {country: 'ar'}
+        };
+        var searchBox = new google.maps.places.Autocomplete(input, options);
+
+        searchBox.addListener('place_changed', function() {
+            var place = searchBox.getPlace();
+            $scope.geoPoint.location = _.extend(place, {
+                coordinates: place.geometry.location.toJSON()
+            });
+        });
+    };
+
 }])
 .controller('organization-products', ['$scope', '$http', '$state', 'api_host', 'Organization', function($scope, $http, $state, api_host, Organization) {
 

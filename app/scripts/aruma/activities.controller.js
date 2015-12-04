@@ -141,14 +141,17 @@
         $scope.setup_component = function () {
             var input = document.getElementById('activity-location'),
             options = {
-                types: ['geocode'],
+                types: ['address'],
                 componentRestrictions: {country: 'ar'}
             };
             var searchBox = new google.maps.places.Autocomplete(input, options);
 
             searchBox.addListener('place_changed', function() {
                 var place = searchBox.getPlace();
-                $scope.activity.location = place;
+                console.dir(place.geometry.location.toJSON());
+                $scope.activity.location = _.extend(place, {
+                    coordinates: place.geometry.location.toJSON()
+                });
             });
 
             jQuery('#activity_event_date').bootstrapMaterialDatePicker({  
