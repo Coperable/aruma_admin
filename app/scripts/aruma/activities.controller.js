@@ -27,6 +27,15 @@
         });
     };
 
+    $scope.removePicture = function(media) {
+        $http.post(api_host+'/api/activity/'+$scope.activity.id+'/remove/'+media.id, {
+        }).success(function(data) {
+            logger.logSuccess("Se eliminó imagen"); 
+            $scope.fetchMedias();
+        });
+    };
+
+
     $scope.cancelUpload = function() {
         $scope.media = {};
         $scope.adding_media = false;
@@ -53,7 +62,7 @@
     $scope.fetchMedias = function() {
         $http.get(api_host+'/api/activity/'+$scope.activity.id+'/medias') 
         .success(function(data) {
-            $scope.medias = data;
+            $scope.activity.medias = data;
         });
 
     };
