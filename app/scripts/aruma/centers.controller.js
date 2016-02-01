@@ -3,7 +3,7 @@
 
     angular.module('app.centers')
         .controller('centers-list', ['$scope', '$window', '$state', 'Center', centersList])
-        .controller('centers-edit', ['$scope', '$stateParams', '$state', '$location', '$timeout', 'api_host', 'Center', centersEdit])
+        .controller('centers-edit', ['$scope', '$stateParams', '$state', '$location', '$timeout', 'logger', 'api_host', 'Center', centersEdit])
         .controller('members-list', ['$scope', '$state', 'Center', 'User', membersList])
         .controller('activities-list', ['$scope', '$state', 'Center', 'Activity', activitiesList])
         .controller('center-view', ['$scope', '$window', 'Center', '$location', '$state', '$stateParams', function($scope, $window, Center, $location, $state, $stateParams) {
@@ -144,7 +144,7 @@
 
     }
 
-    function centersEdit($scope, $stateParams, $state, $location, $timeout, api_host, Center) {
+    function centersEdit($scope, $stateParams, $state, $location, $timeout, logger, api_host, Center) {
         $scope.center = {};
 
         if($stateParams.centerId) {
@@ -245,6 +245,18 @@
         $timeout(function() {
             $scope.setup_component();
         }, 1000);
+
+        $scope.remove = function() {
+            if($scope.center.id) {
+                $scope.center.$remove(function() {
+                    logger.logSuccess("El centro fue eliminado!"); 
+                    $state.go('home'); 
+                }).catch(function(response) {
+                    logger.logError(response.message); 
+                });
+            }
+        };
+
 
     }
 

@@ -33,7 +33,7 @@
                                 Subir Imágen Portada
                             </div>
                             <img ng-if="uploading" ng-src="/images/loading.gif" height="300px" class="img-responsive">
-                            <img ng-if="organization.main_picture" ng-src="http://images.collab-dev.com/300x/smart/aruma/{{center.main_picture}}" class="img-rounded img-responsive">
+                            <img ng-if="center.main_picture" ng-src="http://images.collab-dev.com/300x/smart/aruma/{{center.main_picture}}" class="img-rounded img-responsive">
                         </div>
 
 
@@ -66,6 +66,22 @@
                                 ui-wave
                                 data-ng-click="revert()"
                         >Cancelar</button>
+                        <span
+                          class="btn btn-danger btn-w-md pull-right"
+                          mwl-confirm
+                          ui-wave
+                          title="Atención!"
+                          message="Desea remover el centro?"
+                          confirm-text="Confirmar"
+                          cancel-text="Cancelar"
+                          placement="top"
+                          on-confirm="remove()"
+                          on-cancel="cancelClicked = true"
+                          confirm-button-type="danger"
+                          cancel-button-type="default">
+                            Eliminar
+                        </span>
+
                     </form>
                 </div>
             </div>

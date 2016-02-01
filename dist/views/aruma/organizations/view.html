@@ -21,6 +21,7 @@
                 <li><span class="btn" ng-click="showProducts()"><i class="fa fa-box"></i> Productos <span class="text-muted">({{organization.products.length}})</span></span></li>
                 <li><span class="btn" ng-click="showActivities()"><i class="fa fa-users"></i> Actividades <span class="text-muted">({{organization.activities.length}})</span></span></li>
                 <li><span class="btn" ng-click="showMedias()"><i class="fa fa-users"></i> Imagenes <span class="text-muted">({{organization.medias.length}})</span></span></li>
+                <li><span class="btn" ng-click="showGeoPoints()"><i class="fa fa-users"></i> Puntos de Venta <span class="text-muted">({{organization.geopoints.length}})</span></span></li>
             </ul>
         </div>
     </header>
@@ -135,7 +136,7 @@
                 <div class="row">
                     <div class="col-md-4" ng-repeat="media in medias">
                         <div class="ih-item ih-material">
-                            <a href ng-click="selectAsMainPicture(media)">
+                            <a href >
                                 <div class="img">
                                     <img ng-src="http://images.collab-dev.com/600x400/smart/aruma/{{media.name}}">
                                 </div>
@@ -145,7 +146,23 @@
                                         <div class="info-inner">
                                             <h3>{{media.title}}</h3>
                                             <p>{{media.description}}</p>
-                                            <p>(establecer principal)</p>
+                                            <span ng-click="selectAsMainPicture(media)" class="btn btn-primary">Principal</span>
+                                            <span
+                                              class="btn btn-danger"
+                                              mwl-confirm
+                                              title="Atención!"
+                                              message="Desea remover la imagen?"
+                                              confirm-text="Confirmar"
+                                              cancel-text="Cancelar"
+                                              placement="top"
+                                              on-confirm="removePicture(media)"
+                                              on-cancel="cancelClicked = true"
+                                              confirm-button-type="danger"
+                                              cancel-button-type="default">
+                                                Eliminar
+                                            </span>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -159,6 +176,56 @@
         </div>
     </div>
   
+    <div class="panel panel-default" data-ng-controller="organization-geopoints" ng-if="show_geopoints">
+        <div class="panel-header">
+            <h2 class="section-header">Puntos de Venta</h2>
+            <span class="btn btn-primary pull-right" ng-click="addGeoPoint()" ng-hide="adding_geo">Agregar Punto</span>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12" ng-show="adding_geo">
+                <div class="form-group">
+                    <label for="">Descripción</label>
+                    <textarea class="form-control" rows="3" data-ng-model="geoPoint.description"></textarea>
+                </div>
+
+                <div class="form-group"> 
+                    <label for="">Dirección</label> 
+                    <input id="geopoint-location" class="form-control" ng-model="geoPoint.location.formatted_addess" type="text" placeholder="Ingresar dirección"> 
+                </div> 
+
+                <button class="btn btn-primary btn-w-md" ui-wave data-ng-click="submitGeoPoint()">Guardar</button>
+                <button ng-if="geoPoint.organization_id" class="btn btn-danger btn-w-md" ui-wave data-ng-click="deleteGeoPoint()">Eliminar</button>
+                <button class="btn btn-default btn-w-md" ui-wave data-ng-click="cancelGeoPoint()">Cancelar</button>
+            </div>
+            <div class="col-md-12" ng-hide="adding_geo">
+                <div class="row">
+                    <div class="col-md-4" ng-repeat="geo in geopoints">
+                        <div class="ih-item ih-material">
+                            <a href ng-click="editGeoPoint(geo)">
+                                <div class="img" style="min-height: 100px; background-color: gray">
+                                    <img height="400" ng-src="http://maps.googleapis.com/maps/api/staticmap?size=640x400&style=element:labels|visibility:on&style=element:geometry.stroke|visibility:off&style=feature:roadmap|element:geometry&key=AIzaSyDR1YiAwWwHqSxh1nML72K1MreZcyr3HAQ&markers=color:green%7Clabel:A%7C{{geo.location.latitude}},{{geo.location.longitude}}">
+                                </div>
+                                <div class="info">
+                                    <div class="info-mask bg-primary"></div>
+                                    <div class="info-content">
+                                        <div class="info-inner">
+                                            <h3>{{geo.description}}</h3>
+                                            <p>{{geo.location.formatted_address}}</p>
+                                            <span class="btn" ng-click="editGeoPoint(geo)">Editar</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>                            
+                    </div>                            
+
+                </div>            
+            </div>
+
+        </div>
+    </div>
+ 
+
 </div>
 
 

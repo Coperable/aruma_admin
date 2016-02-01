@@ -136,7 +136,7 @@
                 <div class="row">
                     <div class="col-md-4" ng-repeat="media in medias">
                         <div class="ih-item ih-material">
-                            <a href ng-click="selectAsMainPicture(media)">
+                            <a href >
                                 <div class="img">
                                     <img ng-src="http://images.collab-dev.com/600x400/smart/aruma/{{media.name}}">
                                 </div>
@@ -146,7 +146,23 @@
                                         <div class="info-inner">
                                             <h3>{{media.title}}</h3>
                                             <p>{{media.description}}</p>
-                                            <p>(establecer principal)</p>
+                                            <span ng-click="selectAsMainPicture(media)" class="btn btn-primary">Principal</span>
+                                            <span
+                                              class="btn btn-danger"
+                                              mwl-confirm
+                                              title="Atención!"
+                                              message="Desea remover la imagen?"
+                                              confirm-text="Confirmar"
+                                              cancel-text="Cancelar"
+                                              placement="top"
+                                              on-confirm="removePicture(media)"
+                                              on-cancel="cancelClicked = true"
+                                              confirm-button-type="danger"
+                                              cancel-button-type="default">
+                                                Eliminar
+                                            </span>
+
+
                                         </div>
                                     </div>
                                 </div>

@@ -84,15 +84,24 @@
                             <textarea class="form-control" rows="10" data-ng-model="organization.products_legend"></textarea>
                         </div>
 
-                        <button type="submit"
-                                ui-wave
-                                class="btn btn-primary btn-w-md"
-                                data-ng-disabled="!canSubmit()"
-                                >Guardar</button>
-                        <button class="btn btn-default btn-w-md"
-                                ui-wave
-                                data-ng-click="revert()"
-                        >Cancelar</button>
+                        <button type="submit" ui-wave class="btn btn-primary btn-w-md" data-ng-disabled="!canSubmit()" >Guardar</button>
+                        <button class="btn btn-default btn-w-md" ui-wave data-ng-click="revert()">Cancelar</button>
+
+                        <span
+                          class="btn btn-danger btn-w-md pull-right"
+                          mwl-confirm
+                          ui-wave
+                          title="Atención!"
+                          message="Desea remover el emprendimiento?"
+                          confirm-text="Confirmar"
+                          cancel-text="Cancelar"
+                          placement="top"
+                          on-confirm="remove()"
+                          on-cancel="cancelClicked = true"
+                          confirm-button-type="danger"
+                          cancel-button-type="default">
+                            Eliminar
+                        </span>
                     </form>
                 </div>
             </div>

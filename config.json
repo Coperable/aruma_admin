@@ -1,3 +1,4 @@
 {
-    "api_host" : "http://arumalab.com"
+    "api_host" : "http://arumalab.com",
+    "_api_host" : "http://aruma.app"
 }

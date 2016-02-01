@@ -39,7 +39,8 @@
     "angular-upload": "~1.0.12",
     "bootstrap-material-datetimepicker": "~2.0.0",
     "moment": "~2.10.6",
-    "moment-timezone": "~0.4.1"
+    "moment-timezone": "~0.4.1",
+    "angular-bootstrap-confirm": "~1.0.0"
   },
   "devDependencies": {
     "bourbon": "~4.2.3",

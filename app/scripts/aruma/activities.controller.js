@@ -186,6 +186,18 @@
             $scope.activity.media_id = response.data.media_id;
         };
 
+        $scope.remove = function() {
+            if($scope.activity.id) {
+                $scope.activity.$remove(function() {
+                    logger.logSuccess("La actividad fue eliminada!"); 
+                    $state.go('home'); 
+                }).catch(function(response) {
+                    logger.logError(response.message); 
+                });
+            }
+        };
+
+
     }
 
     function activitiesView($scope, $window, Activity, $location, $state, $stateParams) {

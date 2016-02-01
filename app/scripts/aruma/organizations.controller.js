@@ -68,6 +68,19 @@ angular.module('app.organizations')
 
 
     };
+
+    $scope.remove = function() {
+        if($scope.organization.id) {
+            $scope.organization.$remove(function() {
+                logger.logSuccess("El emprendimiento fue eliminado!"); 
+                $state.go('organization-list'); 
+            }).catch(function(response) {
+                logger.logError(response.message); 
+            });
+        }
+    };
+
+
     $scope.setup_component = function () {
 
     };
@@ -328,6 +341,15 @@ angular.module('app.organizations')
             logger.logSuccess("Se estableció imagen como principal"); 
         });
     };
+
+    $scope.removePicture = function(media) {
+        $http.post(api_host+'/api/organization/'+$scope.organization.id+'/remove/'+media.id, {
+        }).success(function(data) {
+            logger.logSuccess("Se eliminó imagen"); 
+            $scope.fetchMedias();
+        });
+    };
+
 
     $scope.cancelUpload = function() {
         $scope.media = {};

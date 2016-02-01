@@ -19,6 +19,7 @@
         ,'duScroll'
         ,'satellizer'  
         ,'lr.upload'
+        ,'mwl.confirm'
 
         // Custom module
         ,'app.nav'

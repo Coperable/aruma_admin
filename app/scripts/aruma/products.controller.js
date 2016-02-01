@@ -101,6 +101,18 @@
             $scope.product.main_picture = response.data.filename;
         };
 
+        $scope.remove = function() {
+            if($scope.product.id) {
+                $scope.product.$remove(function() {
+                    logger.logSuccess("El producto fue eliminado!"); 
+                    $state.go('home'); 
+                }).catch(function(response) {
+                    logger.logError(response.message); 
+                });
+            }
+        };
+
+
     }
 
     function productsView($scope, $window, Product, $location, $state, $stateParams) {
