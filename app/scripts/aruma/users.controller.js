@@ -32,7 +32,11 @@
         };
 
         $scope.revert = function() {
+            console.log('Revert edit');
             $scope.user = new User({});
+            $state.go('user-list', {
+                userId: $scope.user.id
+            }); 
         };
 
         $scope.submitForm = function() {
@@ -61,6 +65,15 @@
         $scope.changePassword = function() {
             $scope.change_password = true;
         };
+
+        $scope.revert = function() {
+            console.log('Revert view');
+            $state.go('user-list', {
+                userId: $scope.user.id
+            }); 
+
+        };
+
 
         $scope.canSubmit = function() {
             return $scope.user_form.$valid;

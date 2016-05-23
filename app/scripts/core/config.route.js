@@ -74,6 +74,14 @@
                     loginRequired: loginRequired
                 }
             })
+            .state('user-list', {
+                url: '/user-list',
+                templateUrl: 'views/aruma/users/list.html',
+                resolve: {
+                    loginRequired: loginRequired
+                }
+            })
+
             .state('center-new', {
                 url: '/center-new',
                 templateUrl: 'views/aruma/centers/edit.html',
