@@ -14,6 +14,7 @@
         <li ng-if="hasRole('crud_user')" ui-wave><a href="#/aruma/users/list"> <i class="imd imd-contacts"></i><span data-translate="Usuarios"></span> </a></li>
         <li ui-wave ng-repeat="center in account.centers"><a href ng-click="viewCenter(center.id)"> <i class="imd imd-brightness-high"></i><span> {{center.title}}</span> </a></li>
         <li ui-wave ng-repeat="organization in account.organizations"><a  href ng-click="viewOrganization(organization.id)"> <i class="imd imd-store-mall-directory"></i><span> {{organization.name}}</span> </a></li>
+        <li ui-wave><a href="#/media/view"> <i class="imd imd-image"></i><span data-translate="Logos"></span> </a></li>
 
     </ul>
 </div>

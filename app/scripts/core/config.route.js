@@ -134,6 +134,14 @@
                 }
             })
 
+            .state('logo-view', {
+                url: '/media/view',
+                templateUrl: 'views/aruma/media/view.html',
+                resolve: {
+                    loginRequired: loginRequired
+                }
+            })
+
 
             .state('activity-new', {
                 url: '/activity-new/:type/:id',

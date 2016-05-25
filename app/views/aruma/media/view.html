@@ -1,0 +1,77 @@
+<div class="panel panel-default" data-ng-controller="logos-medias">
+    <div class="panel-header">
+        <h2 class="section-header">Logos</h2>
+        <span class="btn btn-primary pull-right" ng-click="addMedia()" ng-hide="adding_media">Agregar Logo</span>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-12" ng-show="adding_media">
+            <div class="form-group">
+                <label for="">Titulo</label>
+                <input  type="text" class="form-control" required data-ng-model="media.title">
+            </div>
+            <div class="form-group">
+                <label for="">Link</label>
+                <input type="text" class="form-control" rows="3" data-ng-model="media.url">
+            </div>
+            <div class="form-group">
+                <img ng-if="uploading" ng-src="/images/loading.gif" height="300px" class="img-responsive">
+            </div>
+
+            <div class="btn btn-primary btn-upload" upload-button 
+                url="{{upload_url}}"
+                param="file"
+                data="media"
+                accept="image/*"
+                multiple="false"
+                force-iframe-upload="{{forceIframeUpload}}"
+                required="false"
+                on-upload="onUpload(files)" 
+                on-success="onSuccess(response)" 
+                on-error="onError(response)"
+                on-complete="onComplete(response)">
+                Subir Imágen
+            </div >
+            <button class="btn btn-default btn-w-md" ui-wave data-ng-click="cancelUpload()">Cancelar</button>
+        </div>
+        <div class="col-md-12" ng-hide="adding_media">
+            <div class="row">
+                <div class="col-md-4" ng-repeat="media in medias">
+                    <div class="ih-item ih-material">
+                        <a href >
+                            <div class="img">
+                                <img ng-src="http://images.collab-dev.com/600x400/smart/aruma/{{media.name}}">
+                            </div>
+                            <div class="info">
+                                <div class="info-mask bg-primary"></div>
+                                <div class="info-content">
+                                    <div class="info-inner">
+                                        <h3>{{media.title}}</h3>
+                                        <span
+                                          class="btn btn-danger"
+                                          mwl-confirm
+                                          title="Atención!"
+                                          message="Desea remover la imagen?"
+                                          confirm-text="Confirmar"
+                                          cancel-text="Cancelar"
+                                          placement="top"
+                                          on-confirm="removePicture(media)"
+                                          on-cancel="cancelClicked = true"
+                                          confirm-button-type="danger"
+                                          cancel-button-type="default">
+                                            Eliminar
+                                        </span>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>                            
+                </div>                            
+
+            </div>            
+        </div>
+
+    </div>
+</div>
+ 

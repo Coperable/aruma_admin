@@ -36,6 +36,7 @@
         ,'app.activities'
         ,'app.products'
         ,'app.organizations'
+        ,'app.logos'
     ]);
 
 })();
